@@ -9,8 +9,7 @@
  */
 package org.openmrs.module.billing.api.base.entity.search;
 
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Restrictions;
+import org.openmrs.module.billing.api.base.entity.db.hibernate.EntityCriteria;
 import org.openmrs.Auditable;
 
 /**
@@ -50,18 +49,18 @@ public class BaseAuditableTemplateSearch<T extends Auditable> extends BaseObject
 	}
 	
 	@Override
-	public void updateCriteria(Criteria criteria) {
+	public void updateCriteria(EntityCriteria<?> criteria) {
 		super.updateCriteria(criteria);
 		
 		T t = getTemplate();
 		if (t.getCreator() != null) {
-			criteria.add(Restrictions.eq("creator", t.getCreator()));
+			criteria.add(EntityCriteria.eq("creator", t.getCreator()));
 		}
 		if (t.getDateCreated() != null) {
 			criteria.add(createCriterion("dateCreated", t.getDateCreated(), dateCreatedComparisonType));
 		}
 		if (t.getChangedBy() != null) {
-			criteria.add(Restrictions.eq("changedBy", t.getChangedBy()));
+			criteria.add(EntityCriteria.eq("changedBy", t.getChangedBy()));
 		}
 		if (t.getDateChanged() != null) {
 			criteria.add(createCriterion("dateChanged", t.getDateChanged(), dateChangedComparisonType));

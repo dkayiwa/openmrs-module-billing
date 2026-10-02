@@ -9,8 +9,7 @@
  */
 package org.openmrs.module.billing.api.base.entity.search;
 
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Restrictions;
+import org.openmrs.module.billing.api.base.entity.db.hibernate.EntityCriteria;
 import org.openmrs.OpenmrsData;
 
 /**
@@ -65,21 +64,21 @@ public class BaseDataTemplateSearch<T extends OpenmrsData> extends BaseAuditable
 	}
 	
 	@Override
-	public void updateCriteria(Criteria criteria) {
+	public void updateCriteria(EntityCriteria<?> criteria) {
 		super.updateCriteria(criteria);
 		
 		T t = getTemplate();
 		
 		if (includeVoided != null) {
 			if (!includeVoided) {
-				criteria.add(Restrictions.eq("voided", false));
+				criteria.add(EntityCriteria.eq("voided", false));
 			}
 		} else if (t.isVoided() != null) {
-			criteria.add(Restrictions.eq("voided", t.getVoided()));
+			criteria.add(EntityCriteria.eq("voided", t.getVoided()));
 		}
 		
 		if (t.getVoidedBy() != null) {
-			criteria.add(Restrictions.eq("voidedBy", t.getVoidedBy()));
+			criteria.add(EntityCriteria.eq("voidedBy", t.getVoidedBy()));
 		}
 		if (t.getDateVoided() != null) {
 			criteria.add(createCriterion("dateVoided", t.getDateVoided(), dateVoidedComparisonType));

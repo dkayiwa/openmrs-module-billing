@@ -39,6 +39,8 @@
 		</property>
 	</bean>
 
+	<bean id="eventDaemonTokenInitializer" class="org.openmrs.module.billing.base.EventDaemonTokenInitializer"/>
+
 	<bean id="genericRepository"
 	      class="org.openmrs.module.billing.api.base.entity.db.hibernate.BaseHibernateRepositoryImpl">
 		<constructor-arg name="sessionFactory" ref="dbSessionFactory"/>

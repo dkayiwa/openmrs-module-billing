@@ -9,9 +9,9 @@
  */
 package org.openmrs.module.billing.api.billing;
 
-import javax.jms.JMSException;
-import javax.jms.MapMessage;
-import javax.jms.Message;
+import jakarta.jms.JMSException;
+import jakarta.jms.MapMessage;
+import jakarta.jms.Message;
 
 import java.util.List;
 
@@ -53,7 +53,7 @@ public class OrderBillingEventListener implements BillingEventListener {
 			return;
 		}
 		
-		Daemon.runInDaemonThread(() -> {
+		Daemon.runInDaemonThreadWithoutResult(() -> {
 			try {
 				processMessage(message);
 			}

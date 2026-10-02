@@ -9,8 +9,7 @@
  */
 package org.openmrs.module.billing.api.base.entity.search;
 
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Restrictions;
+import org.openmrs.module.billing.api.base.entity.db.hibernate.EntityCriteria;
 import org.openmrs.OpenmrsMetadata;
 
 /**
@@ -91,7 +90,7 @@ public class BaseMetadataTemplateSearch<T extends OpenmrsMetadata> extends BaseA
 	}
 	
 	@Override
-	public void updateCriteria(Criteria criteria) {
+	public void updateCriteria(EntityCriteria<?> criteria) {
 		super.updateCriteria(criteria);
 		
 		T t = getTemplate();
@@ -104,14 +103,14 @@ public class BaseMetadataTemplateSearch<T extends OpenmrsMetadata> extends BaseA
 		
 		if (includeRetired != null) {
 			if (!includeRetired) {
-				criteria.add(Restrictions.eq("retired", false));
+				criteria.add(EntityCriteria.eq("retired", false));
 			}
 		} else if (t.getRetired() != null) {
-			criteria.add(Restrictions.eq("retired", t.getRetired()));
+			criteria.add(EntityCriteria.eq("retired", t.getRetired()));
 		}
 		
 		if (t.getRetiredBy() != null) {
-			criteria.add(Restrictions.eq("retiredBy", t.getRetiredBy()));
+			criteria.add(EntityCriteria.eq("retiredBy", t.getRetiredBy()));
 		}
 		if (t.getDateRetired() != null) {
 			criteria.add(createCriterion("dateRetired", t.getDateRetired(), dateRetiredComparisonType));

@@ -11,9 +11,8 @@ package org.openmrs.module.billing.api.base.entity.search;
 
 import java.util.Date;
 
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Restrictions;
+import org.openmrs.module.billing.api.base.entity.db.hibernate.EntityCriteria;
+import org.openmrs.module.billing.api.base.entity.db.hibernate.EntityCriteria.Restriction;
 import org.openmrs.OpenmrsObject;
 
 /**
@@ -39,25 +38,25 @@ public class BaseObjectTemplateSearch<T extends OpenmrsObject> {
 		this.template = template;
 	}
 	
-	public void updateCriteria(Criteria criteria) {
+	public void updateCriteria(EntityCriteria<?> criteria) {
 	}
 	
-	protected Criterion createCriterion(String field, Object value, ComparisonType comparisonType) {
+	protected Restriction createCriterion(String field, Object value, ComparisonType comparisonType) {
 		ComparisonType comparison = comparisonType == null ? ComparisonType.EQUAL : comparisonType;
 		
-		Criterion result;
+		Restriction result;
 		switch (comparison) {
 			case EQUAL:
-				result = Restrictions.eq(field, value);
+				result = EntityCriteria.eq(field, value);
 				break;
 			case NOT_EQUAL:
-				result = Restrictions.ne(field, value);
+				result = EntityCriteria.ne(field, value);
 				break;
 			case IS_NULL:
-				result = Restrictions.isNull(field);
+				result = EntityCriteria.isNull(field);
 				break;
 			case IS_NOT_NULL:
-				result = Restrictions.isNotNull(field);
+				result = EntityCriteria.isNotNull(field);
 				break;
 			default:
 				throw new IllegalArgumentException();
@@ -66,31 +65,31 @@ public class BaseObjectTemplateSearch<T extends OpenmrsObject> {
 		return result;
 	}
 	
-	protected Criterion createCriterion(String field, String value, StringComparisonType comparisonType) {
+	protected Restriction createCriterion(String field, String value, StringComparisonType comparisonType) {
 		StringComparisonType comparison = comparisonType == null ? StringComparisonType.EQUAL : comparisonType;
 		
-		Criterion result;
+		Restriction result;
 		switch (comparison) {
 			case EQUAL:
-				result = Restrictions.eq(field, value);
+				result = EntityCriteria.eq(field, value);
 				break;
 			case NOT_EQUAL:
-				result = Restrictions.ne(field, value);
+				result = EntityCriteria.ne(field, value);
 				break;
 			case IS_NULL:
-				result = Restrictions.isNull(field);
+				result = EntityCriteria.isNull(field);
 				break;
 			case IS_NOT_NULL:
-				result = Restrictions.isNotNull(field);
+				result = EntityCriteria.isNotNull(field);
 				break;
 			case IS_EMPTY:
-				result = Restrictions.isEmpty(field);
+				result = EntityCriteria.isEmpty(field);
 				break;
 			case IS_NOT_EMPTY:
-				result = Restrictions.isNotEmpty(field);
+				result = EntityCriteria.isNotEmpty(field);
 				break;
 			case LIKE:
-				result = Restrictions.ilike(field, value);
+				result = EntityCriteria.ilike(field, value);
 				break;
 			default:
 				throw new IllegalArgumentException();
@@ -99,34 +98,34 @@ public class BaseObjectTemplateSearch<T extends OpenmrsObject> {
 		return result;
 	}
 	
-	protected Criterion createCriterion(String field, Date value, DateComparisonType comparisonType) {
+	protected Restriction createCriterion(String field, Date value, DateComparisonType comparisonType) {
 		DateComparisonType comparison = comparisonType == null ? DateComparisonType.EQUAL : comparisonType;
 		
-		Criterion result;
+		Restriction result;
 		switch (comparison) {
 			case EQUAL:
-				result = Restrictions.eq(field, value);
+				result = EntityCriteria.eq(field, value);
 				break;
 			case NOT_EQUAL:
-				result = Restrictions.ne(field, value);
+				result = EntityCriteria.ne(field, value);
 				break;
 			case IS_NULL:
-				result = Restrictions.isNull(field);
+				result = EntityCriteria.isNull(field);
 				break;
 			case IS_NOT_NULL:
-				result = Restrictions.isNotNull(field);
+				result = EntityCriteria.isNotNull(field);
 				break;
 			case GREATER_THAN:
-				result = Restrictions.gt(field, value);
+				result = EntityCriteria.gt(field, value);
 				break;
 			case GREATER_THAN_EQUAL:
-				result = Restrictions.ge(field, value);
+				result = EntityCriteria.ge(field, value);
 				break;
 			case LESS_THAN:
-				result = Restrictions.lt(field, value);
+				result = EntityCriteria.lt(field, value);
 				break;
 			case LESS_THAN_EQUAL:
-				result = Restrictions.le(field, value);
+				result = EntityCriteria.le(field, value);
 				break;
 			default:
 				throw new IllegalArgumentException();

@@ -9,21 +9,23 @@
  */
 package org.openmrs.module.billing.api.base;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.Expression;
+import jakarta.persistence.criteria.Order;
+import jakarta.persistence.criteria.Root;
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
-import org.hibernate.criterion.CriteriaQuery;
-import org.hibernate.criterion.Order;
+import org.hibernate.query.criteria.HibernateCriteriaBuilder;
+import org.openmrs.module.billing.api.base.entity.db.hibernate.EntityCriteria;
 
 /**
  * Allows for ordering hibernate queries by some customized sql (for example, a database function).
  * Adapted from: http://blog.hexican.com/2012/05/how-to-customize-hibernate-order-by/
  */
-public class CustomizedOrderBy extends Order {
+public class CustomizedOrderBy implements EntityCriteria.SortOrder {
 	
 	private final String sqlExpression;
 	
-	public static Order asc(String sqlFormula) {
+	public static EntityCriteria.SortOrder asc(String sqlFormula) {
 		if (!StringUtils.endsWith(sqlFormula, " asc")) {
 			sqlFormula += " asc";
 		}
@@ -31,7 +33,7 @@ public class CustomizedOrderBy extends Order {
 		return new CustomizedOrderBy(sqlFormula);
 	}
 	
-	public static Order desc(String sqlFormula) {
+	public static EntityCriteria.SortOrder desc(String sqlFormula) {
 		if (!StringUtils.endsWith(sqlFormula, " desc")) {
 			sqlFormula += " desc";
 		}
@@ -40,13 +42,16 @@ public class CustomizedOrderBy extends Order {
 	}
 	
 	protected CustomizedOrderBy(String sqlExpression) {
-		super(sqlExpression, true);
-		
 		this.sqlExpression = sqlExpression;
 	}
 	
-	public String toSqlString(Criteria criteria, CriteriaQuery criteriaQuery) throws HibernateException {
-		return sqlExpression;
+	@Override
+	public Order toOrder(CriteriaBuilder cb, Root<?> root) {
+		boolean descending = StringUtils.endsWith(sqlExpression, " desc");
+		String formula = StringUtils.removeEnd(StringUtils.removeEnd(sqlExpression, " desc"), " asc");
+		Expression<Object> expression = ((HibernateCriteriaBuilder) cb).sql(formula, Object.class);
+		
+		return descending ? cb.desc(expression) : cb.asc(expression);
 	}
 	
 	public String toString() {
