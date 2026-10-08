@@ -65,11 +65,11 @@ Exposes bills as FHIR `Invoice` resources via the `fhir` submodule, built agains
 - **OpenMRS Platform**: 3.0.0 (built and tested against 3.0.0-SNAPSHOT; module `require_version` follows the build property)
 - **Java Version**: 21 or higher
 - **Required Modules**:
-  - Web Services REST Module 2.9+
+  - Web Services REST Module 5.0.0+
   - Stock Management Module 4.0.0+
   - FHIR2 Module 6.0.0+
 - **Optional Modules**:
-  - IDGen Module 2.8+
+  - IDGen Module 7.0.0+
   - UI Framework Module
   - App Framework Module
   - Provider Management Module
