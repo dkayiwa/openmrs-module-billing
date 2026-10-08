@@ -29,5 +29,4 @@
 		</property>
 	</bean>
 
-	<bean id="eventDaemonTokenInitializer" class="org.openmrs.module.billing.EventDaemonTokenInitializer"/>
 </beans>

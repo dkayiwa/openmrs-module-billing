@@ -13,7 +13,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-import jakarta.persistence.LockModeType;
 import jakarta.persistence.TypedQuery;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -186,19 +185,7 @@ public class BaseHibernateRepositoryImpl implements BaseHibernateRepository {
 	}
 	
 	private <E> List<E> list(EntityCriteria<E> criteria) {
-		List<E> results = createTypedQuery(criteria).getResultList();
-		
-		LockModeType lockMode = criteria.getLockMode();
-		if (lockMode == LockModeType.PESSIMISTIC_READ || lockMode == LockModeType.PESSIMISTIC_WRITE
-		        || lockMode == LockModeType.PESSIMISTIC_FORCE_INCREMENT) {
-			// The row is now locked, but an instance that was already in the session keeps its stale state, so reload it
-			Session session = getHibernateSession();
-			for (E result : results) {
-				session.refresh(result);
-			}
-		}
-		
-		return results;
+		return createTypedQuery(criteria).getResultList();
 	}
 	
 	private <E> TypedQuery<E> createTypedQuery(EntityCriteria<E> criteria) {

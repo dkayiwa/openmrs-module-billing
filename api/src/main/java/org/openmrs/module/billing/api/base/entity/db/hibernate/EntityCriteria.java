@@ -10,7 +10,6 @@
 package org.openmrs.module.billing.api.base.entity.db.hibernate;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import jakarta.persistence.LockModeType;
@@ -185,36 +184,12 @@ public class EntityCriteria<E> {
 		return (cb, root) -> cb.equal(path(root, property), value);
 	}
 	
-	public static Restriction ne(String property, Object value) {
-		return (cb, root) -> cb.notEqual(path(root, property), value);
-	}
-	
 	public static Restriction isNull(String property) {
 		return (cb, root) -> cb.isNull(path(root, property));
 	}
 	
-	public static Restriction isNotNull(String property) {
-		return (cb, root) -> cb.isNotNull(path(root, property));
-	}
-	
-	public static Restriction isEmpty(String property) {
-		return (cb, root) -> cb.isEmpty(EntityCriteria.<Collection<?>> path(root, property));
-	}
-	
-	public static Restriction isNotEmpty(String property) {
-		return (cb, root) -> cb.isNotEmpty(EntityCriteria.<Collection<?>> path(root, property));
-	}
-	
-	public static <Y extends Comparable<? super Y>> Restriction gt(String property, Y value) {
-		return (cb, root) -> cb.greaterThan(EntityCriteria.<Y> path(root, property), value);
-	}
-	
 	public static <Y extends Comparable<? super Y>> Restriction ge(String property, Y value) {
 		return (cb, root) -> cb.greaterThanOrEqualTo(EntityCriteria.<Y> path(root, property), value);
-	}
-	
-	public static <Y extends Comparable<? super Y>> Restriction lt(String property, Y value) {
-		return (cb, root) -> cb.lessThan(EntityCriteria.<Y> path(root, property), value);
 	}
 	
 	public static <Y extends Comparable<? super Y>> Restriction le(String property, Y value) {
@@ -223,13 +198,6 @@ public class EntityCriteria<E> {
 	
 	public static <Y extends Comparable<? super Y>> Restriction between(String property, Y low, Y high) {
 		return (cb, root) -> cb.between(EntityCriteria.<Y> path(root, property), low, high);
-	}
-	
-	/**
-	 * Case-insensitive like, using the value as the complete pattern.
-	 */
-	public static Restriction ilike(String property, String value) {
-		return ilike(property, value, MatchMode.EXACT);
 	}
 	
 	/**
